@@ -1,0 +1,62 @@
+﻿using dziennik_Admina.DataBaseAccess;
+using dziennik_Admina.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace dziennik_Admina.Windows
+{
+    public partial class RemoveUser : Window
+    {
+        JournalDbContext db;
+        List<string> godlike = new List<string>() //lista użytkowników, których nie można usunąć
+        {
+            "ADMIN"
+        };
+        public RemoveUser(JournalDbContext db)
+        {
+            InitializeComponent();
+            this.db = db;
+        }
+        public void RemoveUserClick (object sender, RoutedEventArgs s)
+        {
+            TextBox loginTextBox = this.FindName("loginTextBox") as TextBox;
+            if(godlike.Contains(loginTextBox.Text))
+            {
+                MessageBox.Show("Nie można usunąć admina", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if(!loginTextBox.Text.Equals(""))
+            { 
+                var user = db.Users.FirstOrDefault(x => x.Username.Equals(loginTextBox.Text));
+                if(user != null)
+                {
+                    db.Users.Remove(user);
+                    List<Users_Roles> users_Roles = db.Users_Roles.Where(x => x.ID_User == user.ID_User).ToList();
+                    foreach(Users_Roles u in users_Roles)
+                    {
+                        db.Users_Roles.Remove(u);
+                    }
+                    db.SaveChanges();
+                    MessageBox.Show("Usunieto użytkownika " + user.Username, "Usunięto", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //this.Close();
+                }
+                else
+                    MessageBox.Show("Nie ma takiego użytkownika", "Brak użytkownika", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+                MessageBox.Show("Wpisz nazwę użytkownika", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+}
