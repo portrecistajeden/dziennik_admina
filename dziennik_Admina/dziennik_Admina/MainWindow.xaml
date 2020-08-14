@@ -5,8 +5,102 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dziennik_Admina"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Ewidencja" Height="720" Width="1280"
+        MinHeight="400"  MinWidth="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="90"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Label Name="loginLabel" Content="Login:" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0"/>
+            <TextBox Name="loginTextBox" Grid.Row="0" Grid.Column="1" Width="130" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Name="passwordLabel" Content="Hasło:" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0"/>
+            <PasswordBox Name="passwordTextBox" Grid.Row="1" Grid.Column="1" Width="130" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Name="greeting" Content="" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Visibility="Collapsed"/>
+            <Button Click="LoginButton" Name ="loginButton" Content="Zaloguj" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="2"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Name="Journals" Width="150" Height="25" ItemsSource="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"  Grid.Column="0" IsEnabled="False"/>
+            <Button Name="LoadJournal" Content="Załaduj" Click="ShowJournalClick" Width="60" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="1" IsEnabled="False"/>
+        </Grid>
+        <DataGrid Name="Wpisy" ItemsSource="{Binding}" CanUserAddRows="False" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="2" Margin="5" IsEnabled="False" VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Path=ID}" CanUserReorder="False" MinWidth="30" Width="30"/>
+                <DataGridTextColumn Header="Data" Binding="{Binding Path=Date}" MinWidth="130" Width="130"/>
+                <DataGridTextColumn Header="Użytkownik" Binding="{Binding Path=Username}" CanUserReorder="False" MinWidth="100" Width="100" CanUserSort="False"/>
+                <DataGridTextColumn Header="Treść" Binding="{Binding Path=Text}" MinWidth="400" Width="*" CanUserReorder="False" CanUserSort="False"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="EditButtonClick" Name ="editButton" Content="Edytuj" CommandParameter="{Binding Path=ID}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" IsEnabled="{Binding Path=isButtonEnabled}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="DeleteButtonClick" Name ="deleteButton" Content="Usuń" CommandParameter="{Binding Path=ID}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" IsEnabled="{Binding Path=isButtonEnabled}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--<TabControl Name="tabControl" TabStripPlacement="Top" ItemsSource="{Binding}" Grid.Row="1" Margin="10,10,10,10">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Header}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <DataGrid Name="Wpisy" ItemsSource="{Binding Data}" CanUserAddRows="False" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Path=ID}"/>
+                            <DataGridTextColumn Header="Data" Binding="{Binding Path=Date}"/>
+                            <DataGridTextColumn Header="Użytkownik" Binding="{Binding Path=Username}"/>
+                            <DataGridTextColumn Header="Treść" Binding="{Binding Path=Text}" MinWidth="400"/>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="EditButtonClick" Name ="editButton" Content="Edytuj" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>-->
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Name="removeUserButton" Content="Usuń Użytkownika" Click="RemoveUserClick" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Grid.Column="1" Visibility="Collapsed"/>
+            <Button Name="addUserButton" Content="Dodaj Użytkownika" Click="AddUserClick" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Grid.Column="2" Visibility="Collapsed"/>
+            <Button Name="addNoteButton" Content="Dodaj Wpis" Click="AddEntryClick" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="3" IsEnabled="false"/>
+            <Button Name="editUserButton" Content="Edytuj Użytkownika" Click="EditUserClick" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Grid.Column="0" Visibility="Collapsed"/>
+        </Grid>
     </Grid>
 </Window>
