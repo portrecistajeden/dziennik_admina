@@ -20,26 +20,23 @@ namespace dziennik_Admina.Windows
     public partial class RemoveUser : Window
     {
         JournalDbContext db;
-        List<string> godlike = new List<string>() //lista użytkowników, których nie można usunąć
-        {
-            "ADMIN"
-        };
-        public RemoveUser(JournalDbContext db)
+        string _username;
+        public RemoveUser(JournalDbContext db, string _username)
         {
             InitializeComponent();
             this.db = db;
+            this._username = _username;
         }
         public void RemoveUserClick (object sender, RoutedEventArgs s)
         {
-            TextBox loginTextBox = this.FindName("loginTextBox") as TextBox;
-            if(godlike.Contains(loginTextBox.Text))
+            if(db.Users.FirstOrDefault(x => x.Username.Equals(_username)).IsAdmin == true)
             {
                 MessageBox.Show("Nie można usunąć admina", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if(!loginTextBox.Text.Equals(""))
+            if(!this.loginTextBox.Text.Equals(""))
             { 
-                var user = db.Users.FirstOrDefault(x => x.Username.Equals(loginTextBox.Text));
+                var user = db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text));
                 if(user != null)
                 {
                     db.Users.Remove(user);

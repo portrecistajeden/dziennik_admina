@@ -5,10 +5,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7F31CBCB-EC33-4000-811D-989E845D32DA}</ProjectGuid>
+    <ProjectGuid>{9F70F25D-3419-4ACA-937F-01F3CEE7ACE6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>dziennik_Admina</RootNamespace>
-    <AssemblyName>dziennik_Admina</AssemblyName>
+    <RootNamespace>dziennik_Admin_supportApp</RootNamespace>
+    <AssemblyName>dziennik_Admin_supportApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -37,9 +37,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -50,8 +47,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,45 +65,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataBaseAccess\JournalDbInitializer.cs" />
-    <Compile Include="Migrations\202008110948146_migration2.cs" />
-    <Compile Include="Migrations\202008110948146_migration2.designer.cs">
-      <DependentUpon>202008110948146_migration2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008140652081_migration3.cs" />
-    <Compile Include="Migrations\202008140652081_migration3.designer.cs">
-      <DependentUpon>202008140652081_migration3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008272107206_migration4.cs" />
-    <Compile Include="Migrations\202008272107206_migration4.designer.cs">
-      <DependentUpon>202008272107206_migration4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008280809042_migration5.cs" />
-    <Compile Include="Migrations\202008280809042_migration5.designer.cs">
-      <DependentUpon>202008280809042_migration5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TabItems\Entry.cs" />
-    <Compile Include="TabItems\Tab.cs" />
-    <Compile Include="Windows\AddEntry.xaml.cs">
-      <DependentUpon>AddEntry.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\EditEntry.xaml.cs">
-      <DependentUpon>EditEntry.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\EditUser.xaml.cs">
-      <DependentUpon>EditUser.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\RemoveUser.xaml.cs">
-      <DependentUpon>RemoveUser.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Windows\AddEntry.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\AddUser.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -117,37 +73,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataBaseAccess\JournalDbContext.cs" />
-    <Compile Include="Windows\AddUser.xaml.cs">
-      <DependentUpon>AddUser.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DataBase\JournalDbContext.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\EditEntry.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\EditUser.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\RemoveUser.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\202008092210030_init.cs" />
-    <Compile Include="Migrations\202008092210030_init.designer.cs">
-      <DependentUpon>202008092210030_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008102139265_migration1.cs" />
-    <Compile Include="Migrations\202008102139265_migration1.designer.cs">
-      <DependentUpon>202008102139265_migration1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Journal3.cs" />
     <Compile Include="Models\Journal2.cs" />
     <Compile Include="Models\Journal1.cs" />
@@ -167,24 +99,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202008092210030_init.resx">
-      <DependentUpon>202008092210030_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008102139265_migration1.resx">
-      <DependentUpon>202008102139265_migration1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008110948146_migration2.resx">
-      <DependentUpon>202008110948146_migration2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008140652081_migration3.resx">
-      <DependentUpon>202008140652081_migration3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008272107206_migration4.resx">
-      <DependentUpon>202008272107206_migration4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008280809042_migration5.resx">
-      <DependentUpon>202008280809042_migration5.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -33,46 +33,44 @@ namespace dziennik_Admina.Windows
         }
         public void AddUserClick (object sender, RoutedEventArgs s)
         {
-            TextBox loginTextBox = this.FindName("loginTextBox") as TextBox;
-            TextBox passwordTextBox = this.FindName("passwordTextBox") as TextBox;
 
-            CheckBox Journal1CheckBox = this.FindName("Journal1CheckBox") as CheckBox;
-            CheckBox Journal2CheckBox = this.FindName("Journal2CheckBox") as CheckBox;
-            CheckBox Journal3CheckBox = this.FindName("Journal3CheckBox") as CheckBox;
-
-            if (!loginTextBox.Text.Equals(""))
+            if (!this.loginTextBox.Text.Equals(""))
             {
-                if (db.Users.FirstOrDefault(x => x.Username.Equals(loginTextBox.Text)) == null)
+                if (db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text)) == null)
                 { 
-                    if(passwordTextBox.Text.Equals(""))
+                    if(this.passwordTextBox.Text.Equals(""))
                     {
                         MessageBox.Show("Brak hasła", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                     var user = new User
                     {
-                        Username = loginTextBox.Text,
-                        Password = ComputeHash(passwordTextBox.Text)
+                        Username = this.loginTextBox.Text,
+                        Password = ComputeHash(this.passwordTextBox.Text)
                     };
                     List<int> rolesID = new List<int>();
-                    if((bool)Journal1CheckBox.IsChecked)
+                    if((bool)this.Journal1CheckBox.IsChecked)
                     {
                         var role = db.Roles.FirstOrDefault(x => x.Name.Equals("JOURNAL1"));
                         rolesID.Add(role.ID_Role);
                     }
-                    if ((bool)Journal2CheckBox.IsChecked)
+                    if ((bool)this.Journal2CheckBox.IsChecked)
                     {
                         var role = db.Roles.FirstOrDefault(x => x.Name.Equals("JOURNAL2"));
                         rolesID.Add(role.ID_Role);
                     }
-                    if ((bool)Journal3CheckBox.IsChecked)
+                    if ((bool)this.Journal3CheckBox.IsChecked)
                     {
                         var role = db.Roles.FirstOrDefault(x => x.Name.Equals("JOURNAL3"));
                         rolesID.Add(role.ID_Role);
                     }
+                    if ((bool)this.isAdmin.IsChecked)
+                        user.IsAdmin = true;
+                    else
+                        user.IsAdmin = false;
                     db.Users.Add(user);
                     db.SaveChanges();
-                    user = db.Users.FirstOrDefault(x => x.Username.Equals(loginTextBox.Text));
+                    user = db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text));
                 
                     foreach (int id in rolesID)
                     {

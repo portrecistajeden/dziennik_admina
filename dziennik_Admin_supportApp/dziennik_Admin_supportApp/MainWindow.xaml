@@ -1,13 +1,11 @@
-﻿<Window x:Class="dziennik_Admina.Windows.EditUser"
+﻿<Window x:Class="dziennik_Admin_supportApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:dziennik_Admina.Windows"
+        xmlns:local="clr-namespace:dziennik_Admin_supportApp"
         mc:Ignorable="d"
-        Title="EditUser" Height="300" Width="450"
-        MaxWidth="450"
-        MinHeight="300" MinWidth="450">
+        Title="MainWindow" Height="450" Width="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
@@ -22,8 +20,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Name="loginLabel" Content="Nazwa użytkownika:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="0" Grid.Column="0"/>
-        <ComboBox Name="loginComboBox" ItemsSource="{Binding}" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1"/>
-        <Button Name="searchForUser" Content="Wybierz" Click="SearchClick"  Width="70" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2"/>
+        <TextBox Name="loginTextBox" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1"/>
 
         <Label Name="passwordLabel" Content="Hasło:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="1" Grid.Column="0"/>
         <TextBox Name="passwordTextBox" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1"/>
@@ -49,6 +46,8 @@
 
         </Grid>
 
-        <Button Name="SaveButton" Content="Zapisz" Click="SaveClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1" IsEnabled="False"/>
+        <Button Name="SearchButton" Content="Znajdź" Click="SearchClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="0"/>
+        <Button Name="EditButton" Content="Edytuj" Click="SaveClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1" IsEnabled="False"/>
+        <Button Name="CreateButton" Content="Stwórz" Click="CreateClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="2"/>
     </Grid>
 </Window>

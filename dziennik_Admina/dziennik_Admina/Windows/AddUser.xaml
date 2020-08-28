@@ -21,9 +21,11 @@
         </Grid.ColumnDefinitions>
 
         <Label Name="loginLabel" Content="Nazwa użytkownika:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="0" Grid.Column="0"/>
-        <TextBox Name="loginTextBox" Width="200" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1"/>
+        <TextBox Name="loginTextBox" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1"/>
+        <Label Content="Admin: " VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0" Grid.Row="0" Grid.Column="1"/>
+        <CheckBox Name="isAdmin" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Column="1"/>
         <Label Name="passwordLabel" Content="Hasło:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="1" Grid.Column="0"/>
-        <TextBox Name="passwordTextBox" Width="200" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1"/>
+        <TextBox Name="passwordTextBox" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1"/>
 
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>

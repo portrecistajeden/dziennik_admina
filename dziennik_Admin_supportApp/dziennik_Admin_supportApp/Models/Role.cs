@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace dziennik_Admina.Models
 {
-    [Table("Journals")]
-    public class JournalsList
+    [Table("Roles")]
+    public class Role
     {
         [Key]
-        [Column("ID_JOURNAL", Order = 0)]
+        [Column("ID", Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID_Journal { get; set; }
+        public int ID_Role { get; set; }
 
-        [Column("NAME_JOURNAL", Order = 1)]
+        [Column("NAME", Order = 1)]
         [Required(ErrorMessage = "Pole Nazwa jest wymagane")]
-        public string Name_journal { get; set; }
+        public string Name { get; set; }
+
+        public ICollection<Users_Roles> Users_Roles { get; set; }
     }
 }

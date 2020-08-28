@@ -29,11 +29,6 @@ namespace dziennik_Admina
         private List<string> roles = new List<string>();
         List<Entry> entries;
         string journal;
-        List<string> godlike = new List<string>()
-        {
-            "ADMIN",
-            "miniADMIN"
-        };
 
         public MainWindow()
         {
@@ -42,13 +37,6 @@ namespace dziennik_Admina
         }
         public void LoginButton(object sender, RoutedEventArgs s)
         {
-            TextBox loginTextBox = this.FindName("loginTextBox") as TextBox;
-            PasswordBox passwordTextBox = this.FindName("passwordTextBox") as PasswordBox;
-
-            Button addNoteButton = this.FindName("addNoteButton") as Button;
-            Button removeUserButton = this.FindName("removeUserButton") as Button;
-            Button addUserButton = this.FindName("addUserButton") as Button;
-            Button editUserButton = this.FindName("editUserButton") as Button;
 
             if (!USER_LOGGED_IN)
             {
@@ -56,11 +44,11 @@ namespace dziennik_Admina
             }
             else
             {
-                if (godlike.Contains(_username))
+                if (db.Users.FirstOrDefault(x => x.Username.Equals(_username)).IsAdmin == true)     //guziki widoczne tylko dla adminów
                 {
-                    removeUserButton.Visibility = Visibility.Collapsed;
-                    addUserButton.Visibility = Visibility.Collapsed;
-                    editUserButton.Visibility = Visibility.Collapsed;
+                    this.removeUserButton.Visibility = Visibility.Collapsed;
+                    this.addUserButton.Visibility = Visibility.Collapsed;
+                    this.editUserButton.Visibility = Visibility.Collapsed;
                 }
                 _username = "";
                 roles.Clear();
@@ -68,7 +56,7 @@ namespace dziennik_Admina
                 this.Wpisy.ItemsSource = null;
                 USER_LOGGED_IN = false;
                 ReverseVisibilityLoginButtons();
-                addNoteButton.IsEnabled = false;
+                this.addNoteButton.IsEnabled = false;
 
             }
         }
@@ -79,7 +67,7 @@ namespace dziennik_Admina
         }
         public void RemoveUserClick(object sender, RoutedEventArgs s)
         {
-            var UserRemoveWindow = new RemoveUser(db);
+            var UserRemoveWindow = new RemoveUser(db, _username);
             UserRemoveWindow.Show();
         }
         public void AddEntryClick(object sender, RoutedEventArgs s)
@@ -94,12 +82,6 @@ namespace dziennik_Admina
         }
         public void LogIn(string login, string password)
         {
-            Button addNoteButton = this.FindName("addNoteButton") as Button;
-            Button removeUserButton = this.FindName("removeUserButton") as Button;
-            Button addUserButton = this.FindName("addUserButton") as Button;
-            Button editUserButton = this.FindName("editUserButton") as Button;
-
-            ComboBox Journals = this.FindName("Journals") as ComboBox;
 
             if(this.loginTextBox.Text=="")
             {
@@ -108,7 +90,7 @@ namespace dziennik_Admina
             }
 
             var user = db.Users.FirstOrDefault(x => x.Username == this.loginTextBox.Text);
-            if (loginTextBox.Text != "" && user != null && user.Username == this.loginTextBox.Text)
+            if (this.loginTextBox.Text != "" && user != null && user.Username == this.loginTextBox.Text)
             {
                 User userFromDb = db.Users.FirstOrDefault(x => x.Username == login);
                 if(ComputeHash(password) == userFromDb.Password)
@@ -125,19 +107,19 @@ namespace dziennik_Admina
                     if (roles.Count() != 0)
                     {
                         this.Journals.SelectedItem = roles[0];
-                        addNoteButton.IsEnabled = true;
+                        this.addNoteButton.IsEnabled = true;
                         this.Journals.IsEnabled = true;
                         this.LoadJournal.IsEnabled = true;
                         this.Wpisy.IsEnabled = true;
                     }
                     if (_username.Equals("ADMIN"))
                     {
-                        removeUserButton.Visibility = Visibility.Visible;
-                        addUserButton.Visibility = Visibility.Visible;
-                        editUserButton.Visibility = Visibility.Visible;
+                        this.removeUserButton.Visibility = Visibility.Visible;
+                        this.addUserButton.Visibility = Visibility.Visible;
+                        this.editUserButton.Visibility = Visibility.Visible;
                     }
 
-                    Journals.ItemsSource = roles;
+                    this.Journals.ItemsSource = roles;
 
                     USER_LOGGED_IN = true;
                 }
@@ -157,6 +139,7 @@ namespace dziennik_Admina
             entries = new List<Entry>();
             this.Wpisy.ItemsSource = null;
             journal = this.Journals.SelectedItem.ToString();
+            bool isUserAdmin = db.Users.FirstOrDefault(x => x.Username.Equals(_username)).IsAdmin;
             switch (journal)
             {
                 case ("JOURNAL1"):
@@ -169,7 +152,7 @@ namespace dziennik_Admina
                             Date = j.data,
                             Username = j.username,
                             Text = j.entry,
-                            isButtonEnabled = (j.username == _username || godlike.Contains(_username)) 
+                            isButtonEnabled = (j.username == _username || isUserAdmin) 
                         });
                     }
                     break;
@@ -183,7 +166,7 @@ namespace dziennik_Admina
                             Date = j.data,
                             Username = j.username,
                             Text = j.entry,
-                            isButtonEnabled = (j.username == _username || godlike.Contains(_username))
+                            isButtonEnabled = (j.username == _username || isUserAdmin)
                         });
                     }
                     break;
@@ -197,7 +180,7 @@ namespace dziennik_Admina
                             Date = j.data,
                             Username = j.username,
                             Text = j.entry,
-                            isButtonEnabled = (j.username == _username || godlike.Contains(_username))
+                            isButtonEnabled = (j.username == _username || isUserAdmin)
                         });
                     }
                     break;
