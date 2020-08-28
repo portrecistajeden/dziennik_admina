@@ -112,7 +112,7 @@ namespace dziennik_Admina
                         this.LoadJournal.IsEnabled = true;
                         this.Wpisy.IsEnabled = true;
                     }
-                    if (_username.Equals("ADMIN"))
+                    if (db.Users.FirstOrDefault(x => x.Username.Equals(_username)).IsAdmin == true)
                     {
                         this.removeUserButton.Visibility = Visibility.Visible;
                         this.addUserButton.Visibility = Visibility.Visible;
