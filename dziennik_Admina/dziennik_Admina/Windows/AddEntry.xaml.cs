@@ -43,7 +43,7 @@ namespace dziennik_Admina.Windows
                 return;
             }
 
-            switch (this.JournalsComboBox.SelectedItem)
+            switch (this.JournalsComboBox.SelectedItem.ToString())
             {
                 case ("JOURNAL1"):
                     Journal1 entry1 = new Journal1()
