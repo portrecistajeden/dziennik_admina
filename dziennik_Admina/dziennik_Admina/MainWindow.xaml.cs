@@ -67,7 +67,7 @@ namespace dziennik_Admina
         }
         public void RemoveUserClick(object sender, RoutedEventArgs s)
         {
-            var UserRemoveWindow = new RemoveUser(db, _username);
+            var UserRemoveWindow = new RemoveUser(db);
             UserRemoveWindow.Show();
         }
         public void AddEntryClick(object sender, RoutedEventArgs s)
