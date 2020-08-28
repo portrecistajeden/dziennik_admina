@@ -21,12 +21,11 @@ namespace dziennik_Admina.Models
         public string Username { get; set; }
 
         [Column("PASWORD", Order = 2)]
-        [Required(ErrorMessage ="Pole Password jest wymagane")]
+        [Required(ErrorMessage = "Pole Password jest wymagane")]
         public string Password { get; set; }
 
         [Column("IS_ADMIN", Order = 3)]
         public bool IsAdmin { get; set; }
-        
         public ICollection<Users_Roles> Users_Roles { get; set; }
     }
 }

@@ -37,12 +37,12 @@ namespace dziennik_Admina.Windows
         }
         public void AddEntryClick(object sender, RoutedEventArgs s)
         {
-            TextBox entryTextBox = this.FindName("entryTextBox") as TextBox;
-            if(entryTextBox.Text.Equals(""))
+            if(this.entryTextBox.Text.Equals(""))
             {
                 MessageBox.Show("Brak treści wpisu", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
             switch (this.JournalsComboBox.SelectedItem)
             {
                 case ("JOURNAL1"):

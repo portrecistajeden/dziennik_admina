@@ -1,4 +1,4 @@
-namespace dziennik_Admina.DataBaseAccess
+﻿namespace dziennik_Admina.DataBaseAccess
 {
     using dziennik_Admina.Models;
     using System;

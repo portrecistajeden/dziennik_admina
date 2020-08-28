@@ -13,57 +13,104 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace dziennik_Admina.Windows
+namespace dziennik_Admin_supportApp
 {
     /// <summary>
-    /// Logika interakcji dla klasy EditUser.xaml
+    /// Logika interakcji dla klasy MainWindow.xaml
     /// </summary>
-    public partial class EditUser : Window
+    public partial class MainWindow : Window
     {
         JournalDbContext db;
         User user;
         List<Users_Roles> users_roles;
-        MainWindow mw;
-        public EditUser(JournalDbContext db, MainWindow mw)
+        public MainWindow()
         {
             InitializeComponent();
-            this.db = db;
-            this.mw = mw;
-            this.loginComboBox.ItemsSource = getUsernames();
+            db = new JournalDbContext();
         }
-        public List<string> getUsernames()
+
+        public void CreateClick(object sender, RoutedEventArgs s)
         {
-            List<string> UserNames = new List<string>();
-            foreach (User u in db.Users)
+            if (!this.loginTextBox.Text.Equals(""))
             {
-                UserNames.Add(u.Username);
+                if (db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text)) == null)
+                {
+                    if (this.passwordTextBox.Text.Equals(""))
+                    {
+                        MessageBox.Show("Brak hasła", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    var user = new User
+                    {
+                        Username = this.loginTextBox.Text,
+                        Password = ComputeHash(this.passwordTextBox.Text)
+                    };
+                    List<int> rolesID = new List<int>();
+                    if ((bool)this.Journal1CheckBox.IsChecked)
+                    {
+                        var role = db.Roles.FirstOrDefault(x => x.Name.Equals("JOURNAL1"));
+                        rolesID.Add(role.ID_Role);
+                    }
+                    if ((bool)this.Journal2CheckBox.IsChecked)
+                    {
+                        var role = db.Roles.FirstOrDefault(x => x.Name.Equals("JOURNAL2"));
+                        rolesID.Add(role.ID_Role);
+                    }
+                    if ((bool)this.Journal3CheckBox.IsChecked)
+                    {
+                        var role = db.Roles.FirstOrDefault(x => x.Name.Equals("JOURNAL3"));
+                        rolesID.Add(role.ID_Role);
+                    }
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    user = db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text));
+
+                    foreach (int id in rolesID)
+                    {
+                        var user_role = new Users_Roles
+                        {
+                            ID_User = user.ID_User,
+                            ID_Role = id
+                        };
+                        db.Users_Roles.Add(user_role);
+                    }
+
+                    db.SaveChanges();
+                    MessageBox.Show("Dodano użytkownika " + user.Username, "Powodzenie", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //this.Close();
+                }
+                else
+                    MessageBox.Show("Taki użytkownik już istnieje", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            return UserNames;
+            else
+                MessageBox.Show("Brak nazwy użytkownika", "Bląd", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
         public void SearchClick(object sender, RoutedEventArgs s)
         {
             this.passwordTextBox.Text = "";
-            user = db.Users.FirstOrDefault(x => x.Username.Equals(this.loginComboBox.SelectedItem.ToString()));
+            user = db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text));
             if (user == null)
             {
                 this.Journal1CheckBox.IsChecked = false;
                 this.Journal2CheckBox.IsChecked = false;
                 this.Journal3CheckBox.IsChecked = false;
-                this.SaveButton.IsEnabled = false;
+                this.EditButton.IsEnabled = false;
             }
             else
             {
                 users_roles = db.Users_Roles.Where(x => x.ID_User == user.ID_User).ToList();
                 List<Role> roles = new List<Role>();
-                foreach(Users_Roles u in users_roles)
+                foreach (Users_Roles u in users_roles)
                 {
                     roles.Add(db.Roles.FirstOrDefault(x => x.ID_Role == u.ID_Role));
                 }
-                foreach(Role r in roles)
+                foreach (Role r in roles)
                 {
-                    switch(r.Name)
+                    switch (r.Name)
                     {
                         case ("JOURNAL1"):
                             this.Journal1CheckBox.IsChecked = true;
@@ -76,7 +123,7 @@ namespace dziennik_Admina.Windows
                             break;
                     }
                 }
-                SaveButton.IsEnabled = true;
+                EditButton.IsEnabled = true;
             }
         }
         public void SaveClick(object sender, RoutedEventArgs s)
@@ -87,7 +134,7 @@ namespace dziennik_Admina.Windows
                 return;
             }
 
-            
+
             var userEdit = db.Users.FirstOrDefault(x => x.Username.Equals(user.Username));
             userEdit.Password = ComputeHash(this.passwordTextBox.Text);
             db.SaveChanges();
@@ -124,8 +171,6 @@ namespace dziennik_Admina.Windows
             }
             db.SaveChanges();
             MessageBox.Show("Zmieniono dane użytkownika", "Powodzenie", MessageBoxButton.OK, MessageBoxImage.Information);
-            mw.ReloadComboBox();
-            this.Close();
         }
         public string ComputeHash(string password)
         {
@@ -141,6 +186,6 @@ namespace dziennik_Admina.Windows
                 return stringBuilder.ToString();
             }
         }
-        
     }
+
 }

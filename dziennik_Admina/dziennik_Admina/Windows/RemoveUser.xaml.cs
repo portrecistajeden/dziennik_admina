@@ -31,15 +31,14 @@ namespace dziennik_Admina.Windows
         }
         public void RemoveUserClick (object sender, RoutedEventArgs s)
         {
-            TextBox loginTextBox = this.FindName("loginTextBox") as TextBox;
-            if(godlike.Contains(loginTextBox.Text))
+            if(godlike.Contains(this.loginTextBox.Text))
             {
                 MessageBox.Show("Nie można usunąć admina", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if(!loginTextBox.Text.Equals(""))
+            if(!this.loginTextBox.Text.Equals(""))
             { 
-                var user = db.Users.FirstOrDefault(x => x.Username.Equals(loginTextBox.Text));
+                var user = db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text));
                 if(user != null)
                 {
                     db.Users.Remove(user);
