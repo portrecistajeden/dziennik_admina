@@ -44,7 +44,7 @@ namespace dziennik_Admina
             }
             else
             {
-                if (db.Users.FirstOrDefault(x => x.Username.Equals(_username)).IsAdmin == true)
+                if (db.Users.FirstOrDefault(x => x.Username.Equals(_username)).IsAdmin == true)     //guziki widoczne tylko dla adminów
                 {
                     this.removeUserButton.Visibility = Visibility.Collapsed;
                     this.addUserButton.Visibility = Visibility.Collapsed;
@@ -67,7 +67,7 @@ namespace dziennik_Admina
         }
         public void RemoveUserClick(object sender, RoutedEventArgs s)
         {
-            var UserRemoveWindow = new RemoveUser(db);
+            var UserRemoveWindow = new RemoveUser(db, _username);
             UserRemoveWindow.Show();
         }
         public void AddEntryClick(object sender, RoutedEventArgs s)

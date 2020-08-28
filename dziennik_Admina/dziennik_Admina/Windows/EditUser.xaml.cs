@@ -98,6 +98,9 @@ namespace dziennik_Admina.Windows
                 db.Users_Roles.Remove(u);
             }
             db.SaveChanges();
+
+
+
             if ((bool)this.Journal1CheckBox.IsChecked)
             {
                 var role = db.Roles.FirstOrDefault(x => x.Name.Equals("JOURNAL1"));
@@ -113,6 +116,8 @@ namespace dziennik_Admina.Windows
                 var role = db.Roles.FirstOrDefault(x => x.Name.Equals("JOURNAL3"));
                 rolesID.Add(role.ID_Role);
             }
+
+
             foreach (int id in rolesID)
             {
                 var user_role = new Users_Roles
