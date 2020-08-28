@@ -20,16 +20,14 @@ namespace dziennik_Admina.Windows
     public partial class RemoveUser : Window
     {
         JournalDbContext db;
-        string _username;
-        public RemoveUser(JournalDbContext db, string _username)
+        public RemoveUser(JournalDbContext db)
         {
             InitializeComponent();
             this.db = db;
-            this._username = _username;
         }
         public void RemoveUserClick (object sender, RoutedEventArgs s)
         {
-            if(db.Users.FirstOrDefault(x => x.Username.Equals(_username)).IsAdmin == true)
+            if(db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text)).IsAdmin == true)
             {
                 MessageBox.Show("Nie można usunąć admina", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
