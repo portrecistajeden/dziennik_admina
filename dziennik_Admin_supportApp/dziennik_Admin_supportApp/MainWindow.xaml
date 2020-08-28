@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dziennik_Admin_supportApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="450">
+        Title="Panel Zarządzania" Height="450" Width="460"
+        MinWidth="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
@@ -22,6 +23,9 @@
         <Label Name="loginLabel" Content="Nazwa użytkownika:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="0" Grid.Column="0"/>
         <TextBox Name="loginTextBox" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1"/>
 
+        <Label Content="Admin: " VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,0" Grid.Row="0" Grid.Column="2"/>
+        <CheckBox Name="isAdmin" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0" Grid.Column="2"/>
+
         <Label Name="passwordLabel" Content="Hasło:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="1" Grid.Column="0"/>
         <TextBox Name="passwordTextBox" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1"/>
         <Label Name="errorPasswordLabel" Content="Brak hasła" Foreground="Red" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Visibility="Collapsed"/>
@@ -34,7 +38,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
 
             <Label Name="Journal1Label" Content="Journal1" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"/>
@@ -46,8 +50,19 @@
 
         </Grid>
 
-        <Button Name="SearchButton" Content="Znajdź" Click="SearchClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="0"/>
-        <Button Name="EditButton" Content="Edytuj" Click="SaveClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1" IsEnabled="False"/>
-        <Button Name="CreateButton" Content="Stwórz" Click="CreateClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="2"/>
+        <Grid Grid.Row="3" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Name="SearchButton" Content="Znajdź" Click="SearchClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0"/>
+            <Button Name="EditButton" Content="Edytuj" Click="SaveClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" IsEnabled="False"/>
+            <Button Name="CreateButton" Content="Stwórz" Click="CreateClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+            <Button Name="DeleteButton" Content="Usuń" Click="RemoveClick" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3"/>
+        </Grid>
+        
     </Grid>
 </Window>

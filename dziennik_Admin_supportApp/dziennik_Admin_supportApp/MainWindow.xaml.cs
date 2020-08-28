@@ -64,6 +64,12 @@ namespace dziennik_Admin_supportApp
                         var role = db.Roles.FirstOrDefault(x => x.Name.Equals("JOURNAL3"));
                         rolesID.Add(role.ID_Role);
                     }
+
+                    if ((bool)this.isAdmin.IsChecked)
+                        user.IsAdmin = true;
+                    else
+                        user.IsAdmin = false;
+
                     db.Users.Add(user);
                     db.SaveChanges();
                     user = db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text));
@@ -185,6 +191,35 @@ namespace dziennik_Admin_supportApp
                 }
                 return stringBuilder.ToString();
             }
+        }
+
+        public void RemoveClick(object sender, RoutedEventArgs s)
+        {
+            if (db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text)).IsAdmin == true)
+            {
+                MessageBox.Show("Nie można usunąć admina", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (!this.loginTextBox.Text.Equals(""))
+            {
+                var user = db.Users.FirstOrDefault(x => x.Username.Equals(this.loginTextBox.Text));
+                if (user != null)
+                {
+                    db.Users.Remove(user);
+                    List<Users_Roles> users_Roles = db.Users_Roles.Where(x => x.ID_User == user.ID_User).ToList();
+                    foreach (Users_Roles u in users_Roles)
+                    {
+                        db.Users_Roles.Remove(u);
+                    }
+                    db.SaveChanges();
+                    MessageBox.Show("Usunieto użytkownika " + user.Username, "Usunięto", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //this.Close();
+                }
+                else
+                    MessageBox.Show("Nie ma takiego użytkownika", "Brak użytkownika", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+                MessageBox.Show("Wpisz nazwę użytkownika", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
